@@ -1,0 +1,11 @@
+﻿  jogo.cpp
+c:\users\computador\workfolder\cefet\cg\private\stellarsystem\stellarsystem\stellarsystem\src\jogo.cpp(22): warning C4244: 'argumento': conversão de 'time_t' para 'unsigned int', possível perda de dados
+c:\users\computador\workfolder\cefet\cg\private\stellarsystem\stellarsystem\stellarsystem\src\jogo.cpp(57): warning C4244: 'argumento': conversão de 'float' para 'GLsizei', possível perda de dados
+c:\users\computador\workfolder\cefet\cg\private\stellarsystem\stellarsystem\stellarsystem\src\jogo.cpp(57): warning C4244: 'argumento': conversão de 'float' para 'GLint', possível perda de dados
+c:\users\computador\workfolder\cefet\cg\private\stellarsystem\stellarsystem\stellarsystem\src\jogo.cpp(64): warning C4244: 'argumento': conversão de 'float' para 'GLsizei', possível perda de dados
+  Gerando código
+  2 of 19 functions (10.5%) were compiled, the rest were copied from previous compilation.
+    1 functions were new in current compilation
+    0 functions had inline decision re-evaluated but remain unchanged
+  Finalizada a geração de código
+  stellarSystem.vcxproj -> C:\Users\Computador\workfolder\CEFET\CG\private\stellarSystem\stellarSystem\x64\Release\stellarSystem.exe

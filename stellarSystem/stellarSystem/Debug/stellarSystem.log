@@ -1,0 +1,13 @@
+﻿  jogo.cpp
+jogo.obj : error LNK2019: símbolo externo indefinido __imp__glutInitWindowPosition@8 referenciado na função _main
+jogo.obj : error LNK2019: símbolo externo indefinido __imp__glutInitWindowSize@8 referenciado na função _main
+jogo.obj : error LNK2019: símbolo externo indefinido __imp__glutInitDisplayMode@4 referenciado na função _main
+jogo.obj : error LNK2019: símbolo externo indefinido __imp__glutMainLoop@0 referenciado na função _main
+jogo.obj : error LNK2019: símbolo externo indefinido __imp____glutInitWithExit@12 referenciado na função _glutInit_ATEXIT_HACK@8
+jogo.obj : error LNK2019: símbolo externo indefinido __imp____glutCreateWindowWithExit@8 referenciado na função _glutCreateWindow_ATEXIT_HACK@4
+jogo.obj : error LNK2019: símbolo externo indefinido __imp__glutInitContextVersion@8 referenciado na função _main
+jogo.obj : error LNK2019: símbolo externo indefinido __imp__glutInitContextProfile@4 referenciado na função _main
+C:\Users\Computador\workfolder\CEFET\CG\private\stellarSystem\stellarSystem\\External Libraries\GL\lib\freeglut.lib : warning LNK4272: o tipo de máquina da biblioteca 'x64' está em conflito com o tipo de máquina de destino 'x86'
+C:\Users\Computador\workfolder\CEFET\CG\private\stellarSystem\stellarSystem\\External Libraries\GL\lib\glew32.lib : warning LNK4272: o tipo de máquina da biblioteca 'x64' está em conflito com o tipo de máquina de destino 'x86'
+C:\Users\Computador\workfolder\CEFET\CG\private\stellarSystem\stellarSystem\\External Libraries\GL\lib\freeglutd.lib : warning LNK4272: o tipo de máquina da biblioteca 'x64' está em conflito com o tipo de máquina de destino 'x86'
+C:\Users\Computador\workfolder\CEFET\CG\private\stellarSystem\stellarSystem\Debug\stellarSystem.exe : fatal error LNK1120: 8 externo não resolvidos
