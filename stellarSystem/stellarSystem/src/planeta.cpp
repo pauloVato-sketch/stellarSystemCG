@@ -1,11 +1,26 @@
-#include <GL/glut.h>
+#include "Planeta.hpp" 
 
-class sol {
-private:
-	GLdouble radius;
-	Glint x;
-	Glint y;
-	Glint idTextura;
-public:
+int Planeta::desenhaPlaneta() {
+	/*A fazer
+	*/
+	return 1;
+}
+GLint Planeta::getX() {
+	return x;
+}
+GLint Planeta::getY() {
+	return y;
+}
+GLint Planeta::getIdTextura() {
+	return idTextura;
+}
 
-};	
+void Planeta::setX(int valueX) {
+	this->x = valueX;
+}
+void Planeta::setY(int valueY) {
+	this->y = valueY;
+}
+void Planeta::setIdTextura(int valueId) {
+	this->idTextura = valueId;
+}

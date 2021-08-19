@@ -135,7 +135,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)\External Libraries\SOIL2\include;$(SolutionDir)\External Libraries\GL\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\stellarSystem\headers;$(SolutionDir)\External Libraries\SOIL2\include;$(SolutionDir)\External Libraries\GL\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -146,7 +146,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\jogo.cpp" />
+    <ClInclude Include="..\headers\Iluminacao.hpp" />
+    <ClInclude Include="..\headers\Planeta.hpp" />
+    <ClInclude Include="headers\Sol.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\Iluminacao.cpp" />
+    <ClCompile Include="src\JogoPrincipal.cpp" />
+    <ClCompile Include="src\Planeta.cpp" />
+    <ClCompile Include="src\Sol.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

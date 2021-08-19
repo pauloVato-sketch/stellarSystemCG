@@ -14,8 +14,10 @@
 #include <vector>
 #include <string>
 //Incluindo bibliotecas minhas no projeto
+#include "Sol.hpp"
 
 GLint WORLD_SIZE_W=800, WORLD_SIZE_H=600;
+Sol sun;
 
 void inicializa(){
 	//Inicializa a semente para numero aleatorio
@@ -33,6 +35,8 @@ void inicializa(){
 
 void desenhaMundo() {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	sun.desenhaSol();
 }
 //Função responsável por alterar a visão ao redimensionar a janela
 void redimensionada(int width, int height) {
