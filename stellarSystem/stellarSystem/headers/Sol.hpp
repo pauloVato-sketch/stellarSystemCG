@@ -1,5 +1,6 @@
 #pragma once
 #include <GL/glut.h>
+#include <Iluminacao.hpp>
 
 class Sol {
 private:
@@ -7,13 +8,20 @@ private:
 	GLint x;
 	GLint y;
 	GLint idTextura;
+	Iluminacao iluminacao;
 public:
+
+	Sol();
+	Sol(Iluminacao iluminacao, GLint x, GLint y);
+
 	int desenhaSol();
 	GLint getX();
 	GLint getY();
 	GLint getIdTextura();
+	Iluminacao getIluminacao();
 
 	void setX(int valueX);
 	void setY(int valueY);
 	void setIdTextura(int valueId);
+	void setIluminacao(Iluminacao luz);
 };

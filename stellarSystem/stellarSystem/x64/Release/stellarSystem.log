@@ -1,9 +1,19 @@
-﻿  Iluminacao.cpp
-  Planeta.cpp
-  Sol.cpp
+﻿  JogoPrincipal.cpp
+E:\OpenGl\Projetos\Stellar System CG\stellarSystem\stellarSystem\src\JogoPrincipal.cpp(26,12): warning C4244: 'argumento': conversão de 'time_t' para 'unsigned int', possível perda de dados
+E:\OpenGl\Projetos\Stellar System CG\stellarSystem\stellarSystem\src\JogoPrincipal.cpp(52,45): warning C4305: 'inicializando': truncamento de 'double' para '_Ty'
+          with
+          [
+              _Ty=GLfloat
+          ]
+E:\OpenGl\Projetos\Stellar System CG\stellarSystem\stellarSystem\src\JogoPrincipal.cpp(53,43): warning C4305: 'inicializando': truncamento de 'double' para '_Ty'
+          with
+          [
+              _Ty=GLfloat
+          ]
+E:\OpenGl\Projetos\Stellar System CG\stellarSystem\stellarSystem\src\JogoPrincipal.cpp(129,10): warning C4553: '==': o resultado da expressão não usado; você pretendia que fosse '='?
   Gerando código
-  2 of 20 functions (10.0%) were compiled, the rest were copied from previous compilation.
+  1 of 183 functions ( 0.5%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
     1 functions had inline decision re-evaluated but remain unchanged
   Finalizada a geração de código
-  stellarSystem.vcxproj -> C:\Users\Computador\workfolder\CEFET\CG\private\stellarSystem\stellarSystem\x64\Release\stellarSystem.exe
+  stellarSystem.vcxproj -> E:\OpenGl\Projetos\Stellar System CG\stellarSystem\x64\Release\stellarSystem.exe
