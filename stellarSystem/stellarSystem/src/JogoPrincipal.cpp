@@ -1,5 +1,5 @@
 /*
-	Autores: Pablo Vasconcelos e Paulo Lopes d. Nascimento 
+	Autores: Pablo Vasconcelos e Paulo Lopes d. Nascimento
 	Data entrega: 26/08
 	Motivação: Projeto stellar system
 
@@ -25,18 +25,20 @@ Sol sun;
 int larguraJanela, alturaJanela;
 float anguloEsferaY = 0;
 
-void inicializa(){
+void inicializa() {
 	//Inicializa a semente para numero aleatorio
 	srand(time(NULL));
 
 	//Função que define a cor de fundo
-	glClearColor(0.0, 0.0, 0.0, 0.0);
+	glClearColor(0.0, 0.0, 0.0, 1.0);
+
 	// desenho preenchido 
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
 	//Permite mesclagem de cores e suporte ha texturas com tranparencia
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
 	// Habilita a definição da cor do material a partir da cor corrente
 	glEnable(GL_COLOR_MATERIAL);
 	//Habilita o uso de iluminação
@@ -92,10 +94,12 @@ void inicializa(){
 void desenhaBackground() {
 	//glClearColor(1,1,1,1);
 	//glutSwapBuffers();
+
 }
 
 void desenhaMundo() {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
 
 	// Posiciona a câmera de acordo com posição x,y do mouse na janela
 	//gluLookAt(1 * (xMouse - larguraJanela / 2) / (larguraJanela / 16), -1 * (yMouse - alturaJanela / 2) / (alturaJanela / 16) + 3, 5,
@@ -121,6 +125,7 @@ void posicionaObservador(int tipoObservador) { //0 - Observador Atrounalta (pode
 
 	gluLookAt(0, 0, 200, 0, 0, 0, 0, 1, 0);
 
+
 }
 
 void especificaParametrosVisualizacao() {
@@ -134,11 +139,10 @@ void especificaParametrosVisualizacao() {
 }
 
 //Função responsável por alterar a visão ao redimensionar a janela
-void redimensionada(int width, int height) {
+void redimensionada(GLsizei width, GLsizei height) {
 
 	larguraJanela = width;
 	alturaJanela = height;
-
 	if (height == 0) { //Teste para previnir um divisao por 0 na proporção de aspecto da tela.
 		height == 1;
 	}
@@ -186,47 +190,49 @@ void redimensionada(int width, int height) {
 	glLoadIdentity();
 }
 
+
 //Função que opera as entradas do teclado
-void teclaPressionada(unsigned char key, int x, int y){
+void teclaPressionada(unsigned char key, int x, int y) {
 
-	switch (key){
-		case 27:      // Tecla "ESC"
-			exit(0);  // Sai da aplicação
-			break;
+	switch (key) {
+	case 27:      // Tecla "ESC"
+		exit(0);  // Sai da aplicação
+		break;
 
-		case 32: // Tecla "SPACE"
-			
-			break;
+	case 32: // Tecla "SPACE"
 
-		case 83:
-		case 115: //S
-			//menuSelecao = menuAtivado ? true : false;
-			break;
+		break;
 
-		case 66:
-		case 98:
-			//menuSelecao = menuSelecao ? false : true;
-			break;
+	case 83:
+	case 115: //S
+		//menuSelecao = menuAtivado ? true : false;
+		break;
 
-		case 80: // 'P;
-		case 112: //'p'
-			
-			
-		default:
-			break;
-		
+	case 66:
+	case 98:
+		//menuSelecao = menuSelecao ? false : true;
+		break;
+
+	case 80: // 'P;
+	case 112: //'p'
+
+
+	default:
+		break;
+
 	}
 }
-/*
-	Função que lida com teclas especiais
-*/
-void teclaEspecialPressionada(int key, int x, int y){
-		/*switch (key){
-			
-			default:
-				break;
-			}
-		}*/
+
+
+
+//Função que lida com teclas especiais
+void teclaEspecialPressionada(int key, int x, int y) {
+	/*switch (key){
+
+		default:
+			break;
+		}
+	}*/
 }
 
 void posicionaCamera(int x, int y) {

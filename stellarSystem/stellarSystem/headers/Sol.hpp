@@ -1,6 +1,7 @@
 #pragma once
 #include <GL/glut.h>
 #include "Iluminacao.hpp"
+#include <Iluminacao.hpp>
 
 class Sol {
 private:
