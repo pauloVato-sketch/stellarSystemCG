@@ -1,9 +1,22 @@
-﻿  Iluminacao.cpp
-  Planeta.cpp
+﻿  JogoPrincipal.cpp
+c:\users\computador\workfolder\cefet\cg\private\stellarsystem\stellarsystem\stellarsystem\src\jogoprincipal.cpp(30): warning C4244: 'argumento': conversão de 'time_t' para 'unsigned int', possível perda de dados
+c:\users\computador\workfolder\cefet\cg\private\stellarsystem\stellarsystem\stellarsystem\src\jogoprincipal.cpp(54): warning C4305: 'inicializando': truncamento de 'double' para '_Ty'
+          with
+          [
+              _Ty=GLfloat
+          ]
+c:\users\computador\workfolder\cefet\cg\private\stellarsystem\stellarsystem\stellarsystem\src\jogoprincipal.cpp(55): warning C4305: 'inicializando': truncamento de 'double' para '_Ty'
+          with
+          [
+              _Ty=GLfloat
+          ]
+c:\users\computador\workfolder\cefet\cg\private\stellarsystem\stellarsystem\stellarsystem\src\jogoprincipal.cpp(105): warning C4244: 'argumento': conversão de 'float' para 'int', possível perda de dados
+c:\users\computador\workfolder\cefet\cg\private\stellarsystem\stellarsystem\stellarsystem\src\jogoprincipal.cpp(143): warning C4553: '==': o resultado da expressão não usado; você pretendia que fosse '='?
+c:\users\computador\workfolder\cefet\cg\private\stellarsystem\stellarsystem\stellarsystem\src\jogoprincipal.cpp(233): warning C4244: '=': conversão de 'int' para 'float', possível perda de dados
+c:\users\computador\workfolder\cefet\cg\private\stellarsystem\stellarsystem\stellarsystem\src\jogoprincipal.cpp(234): warning C4244: '=': conversão de 'int' para 'float', possível perda de dados
   Sol.cpp
+c:\users\computador\workfolder\cefet\cg\private\stellarsystem\stellarsystem\stellarsystem\src\sol.cpp(14): warning C4244: 'argumento': conversão de 'int' para 'GLfloat', possível perda de dados
   Gerando código
-  2 of 20 functions (10.0%) were compiled, the rest were copied from previous compilation.
-    0 functions were new in current compilation
-    1 functions had inline decision re-evaluated but remain unchanged
+  All 219 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
   Finalizada a geração de código
   stellarSystem.vcxproj -> C:\Users\Computador\workfolder\CEFET\CG\private\stellarSystem\stellarSystem\x64\Release\stellarSystem.exe
