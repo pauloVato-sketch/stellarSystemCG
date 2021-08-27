@@ -12,14 +12,16 @@ private:
 	Iluminacao iluminacao;
 public:
 	Sol();
-	Sol(Iluminacao iluminacao, GLint x, GLint y);
+	Sol(Iluminacao iluminacao, GLint x, GLint y,GLfloat radius);
 
 	int desenhaSol(int anguloEsferaY);
+	GLfloat getRadius();
 	GLint getX();
 	GLint getY();
 	GLint getIdTextura();
 	Iluminacao getIluminacao();
 
+	void setRadius(float raio);
 	void setX(int valueX);
 	void setY(int valueY);
 	void setIdTextura(int valueId);

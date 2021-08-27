@@ -18,10 +18,10 @@
     <ClInclude Include="headers\Sol.hpp">
       <Filter>Arquivos de Cabeçalho</Filter>
     </ClInclude>
-    <ClInclude Include="..\headers\Planeta.hpp">
+    <ClInclude Include="headers\Iluminacao.hpp">
       <Filter>Arquivos de Cabeçalho</Filter>
     </ClInclude>
-    <ClInclude Include="..\headers\Iluminacao.hpp">
+    <ClInclude Include="headers\Planeta.hpp">
       <Filter>Arquivos de Cabeçalho</Filter>
     </ClInclude>
   </ItemGroup>

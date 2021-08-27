@@ -7,24 +7,87 @@
 //Incluindo bibliotecas gráficas
 #include <GL/glew.h>
 #include <GL/freeglut.h>
+#include <SOIL2/SOIL2.h>
 //Incluindo bibliotecas do C/C++ que serão úteis
-#include <iostream>
 #include <cstdlib>
 #include <ctime>
-#include <vector>
+#include <iostream>
 #include <string>
+#include <vector>
 //Incluindo bibliotecas minhas no projeto
-#include "Sol.hpp"
 #include "Iluminacao.hpp"
+#include "Planeta.hpp"
+#include "Sol.hpp"
 
+
+//Definições de tamanho da janela
 GLint WORLD_SIZE_W=800, WORLD_SIZE_H=600;
+int larguraJanela=800, alturaJanela=600;
+//Definições de angulo da camera, aspecto e valores de perto/longe para o perspective
 GLfloat angle, fAspect, zNear, zFar;
-float xMouse = 250, yMouse = 250;
+//Ferramentas de rotação
+double ano=0, dia=0;
+//Vector com as luzes sendo 0 para a luz do Sol
 std::vector<Iluminacao> luzes;
+//Objetos do Sol e dos planetas
 Sol sun;
-int larguraJanela, alturaJanela;
-float anguloEsferaY = 0;
+std::vector<Planeta> planetas;
+//Angulo do eixo de giro do Sol e planetas em torno do eixo Y ou um pouco inclinado para mais realismo
+float anguloEsferaY = 0,anguloEsferaP = 0;
+//Array de texturas
+std::vector<int> idTexturas;
+//Variaveis de controle da camera
+enum CAMERAS { MODO_PAISAGEM = 0, MODO_SUPERIOR = 1};
+int modoCamera = MODO_PAISAGEM;
+GLuint carregaTextura(const char* arquivo) {
+	GLuint idTextura = SOIL_load_OGL_texture(
+		arquivo,
+		SOIL_LOAD_AUTO,
+		SOIL_CREATE_NEW_ID,
+		SOIL_FLAG_INVERT_Y
+	);
 
+	if (idTextura == 0) {
+		printf("Erro do SOIL: '%s'\n", SOIL_last_result());
+	}
+
+	return idTextura;
+}
+
+void loadTextures() {
+	idTexturas.push_back(carregaTextura("res/sun.jfif"));
+	idTexturas.push_back(carregaTextura("res/mercurio.jpg"));
+	idTexturas.push_back(carregaTextura("res/venus.jfif"));
+	idTexturas.push_back(carregaTextura("res/earth.jfif"));
+	idTexturas.push_back(carregaTextura("res/mars.jfif"));
+	idTexturas.push_back(carregaTextura("res/jupiter.jfif"));
+	idTexturas.push_back(carregaTextura("res/saturn.jfif"));
+	idTexturas.push_back(carregaTextura("res/uranus.jfif"));
+	idTexturas.push_back(carregaTextura("res/neptune.jfif"));
+
+}
+void criaPlanetas() {
+	/*Criação e instanciação dos planetas
+	*/
+	Planeta mercurio,venus,terra,marte,jupiter,saturno,urano,netuno;
+	mercurio = Planeta(-125, 0,0,10);
+	venus = Planeta(-130, 0, 0,20);
+	terra = Planeta(-135, 0, 0, 35);
+	marte = Planeta(-140, 0, 0, 25);
+	jupiter = Planeta(-145, 0, 0, 50);
+	saturno = Planeta(-150, 0, 0, 45);
+	urano = Planeta(-155, 0, 0, 40);
+	netuno = Planeta(-160, 0, 0, 30);
+	//Inserindo no array Planetas
+	planetas.push_back(mercurio);
+	planetas.push_back(venus);
+	planetas.push_back(terra);
+	planetas.push_back(marte);
+	planetas.push_back(jupiter);
+	planetas.push_back(saturno);
+	planetas.push_back(urano); 
+	planetas.push_back(netuno);
+}
 void inicializa() {
 	//Inicializa a semente para numero aleatorio
 	srand(time(NULL));
@@ -39,6 +102,7 @@ void inicializa() {
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
+	loadTextures();
 	// Habilita a definição da cor do material a partir da cor corrente
 	glEnable(GL_COLOR_MATERIAL);
 	//Habilita o uso de iluminação
@@ -53,16 +117,16 @@ void inicializa() {
 	Iluminacao i;
 	luzes.push_back(i);
 
-	luzes[0].setLuzAmbiente({ 0.2,0.2,0.2,1.0 });
+	luzes[0].setLuzAmbiente({ 1,1,1,1.0 });
 	luzes[0].setLuzDifusa({ 0.7,0.7,0.7,1.0 });
 	luzes[0].setLuzEspecular({ 1, 1, 1, 1.0 });
-	luzes[0].setPosicaoLuz({ 0 , 50.0, 50.0, 1.0 });
+	luzes[0].setPosicaoLuz({ 0 , 0, 0, 1.0 });
 
-	luzes[0].setEspecMaterial(10);
+	luzes[0].setEspecMaterial(60);
 	luzes[0].setEspecularidade({ 1.0, 1.0, 1.0, 1.0 });
 
-	sun = Sol(luzes[0], 0, 0);
-
+	sun = Sol(luzes[0], 0, 0, 100);
+	
 	//Habilita o tipo de sombreamento
 	glShadeModel(GL_FLAT);
 
@@ -81,61 +145,86 @@ void inicializa() {
 	glLightfv(GL_LIGHT0, GL_SPECULAR, sun.getIluminacao().getLuzEspecular().data());
 	glLightfv(GL_LIGHT0, GL_POSITION, sun.getIluminacao().getPosicaoLuz().data());
 
-
+	criaPlanetas();
 
 	//inicializa variaveis de camera
-	angle = 50;
-	fAspect = 0;
-	zNear = 0.5;
-	zFar = 500;
-	glutSetCursor(GLUT_CURSOR_NONE);
+	angle = 90;
+	fAspect = WORLD_SIZE_W / WORLD_SIZE_H;
+	zNear = 5;
+	zFar = 2800;
+	
 }
 
-void desenhaBackground() {
+void desenhaBG() {
 	//glClearColor(1,1,1,1);
 	//glutSwapBuffers();
+}
+void posicionaObservador(int tipoObservador) { //0 - Observador Astronauta (pode andar livremente rumo ao desconhecido no espaço) | 1 - Observador astrologo (observa o espaço a uma longa distancia por meio de uma luneta)
+	
+		switch (tipoObservador) {
+		case MODO_PAISAGEM: {
+			gluLookAt(400, 0, 1200, 0, 0, 0, 1, 1, 0);
+			break;
+		}
+		case MODO_SUPERIOR: {
+			gluLookAt(1, 1200, 0, 0, 0, 0, 1, 0, 0);
+			break;
+		}
+	}
 
 }
-
 void desenhaMundo() {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+	
+	/*switch (modoCamera) {
+		case MODO_PAISAGEM: {
+			posicionaObservador(MODO_PAISAGEM);
 
-	// Posiciona a câmera de acordo com posição x,y do mouse na janela
-	//gluLookAt(1 * (xMouse - larguraJanela / 2) / (larguraJanela / 16), -1 * (yMouse - alturaJanela / 2) / (alturaJanela / 16) + 3, 5,
-	//	0, 0, 0,
-	//	0, 1, 0);
+			break;
+		}
+		case MODO_SUPERIOR: {
+			posicionaObservador(MODO_SUPERIOR);
+			break;
+		}
+		default: {
+			 posicionaObservador(MODO_PAISAGEM);
+			 break;
+		}
+	}*/
+
 	glPushMatrix();
+	glEnable(GL_TEXTURE_2D);
+	glBindTexture(GL_TEXTURE_2D, idTexturas[0]);
 	sun.desenhaSol(anguloEsferaY);
+	glDisable(GL_TEXTURE_2D);
 	glPopMatrix();
-	//glBegin(GL_POLYGON);	// Face posterior
-	//glNormal3f(0, 0, 1);  // Normal da face
-	//glVertex3f(0, 0, 0);
-	//glVertex3f(-50.0, 0,0);
-	//glVertex3f(-50.0, -50.0, 0);
-	//glVertex3f(0, -50.0, 0);
-	//glEnd();
 
+	glPushMatrix();
+	glEnable(GL_TEXTURE_2D);
+	for (int i = 0; i < planetas.size();i++) {
+		glBindTexture(GL_TEXTURE_2D, idTexturas[i+1]);
+		planetas.at(i).desenhaPlaneta(ano,dia);
+	}
+	
+	glDisable(GL_TEXTURE_2D);
+	glPopMatrix();
 
 	glutSwapBuffers();
 
 }
 
-void posicionaObservador(int tipoObservador) { //0 - Observador Atrounalta (pode andar livrimente rumo ao desconhecido no espaço) | 1 - Observador astrologo (observa o espaço a uma longa distancia por meio de uma luneta)
 
-	gluLookAt(0, 0, 200, 0, 0, 0, 0, 1, 0);
-
-
-}
 
 void especificaParametrosVisualizacao() {
 
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 
-	gluPerspective(angle, fAspect, zNear, zFar); //zNear representa o corte frontal e o zFar representa o corte final, em outras palavras, representam, juntos, o espaço em Z que nossa camera consegue ver os objetos.
+	gluPerspective(angle, fAspect, zNear, zFar); 
+	//zNear representa o corte frontal e o zFar representa o corte final, em outras palavras, representam, juntos, o espaço em Z que nossa camera consegue ver os objetos.
 
-	posicionaObservador(0);
+	posicionaObservador(modoCamera);
 }
 
 //Função responsável por alterar a visão ao redimensionar a janela
@@ -149,42 +238,13 @@ void redimensionada(GLsizei width, GLsizei height) {
 
 	// left, bottom, right, top
 	glViewport(0, 0, width, height);
-
 	fAspect = (GLfloat)width / (GLfloat)height;
+	std::cout << fAspect << std::endl;
 
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 
 	especificaParametrosVisualizacao();
-
-	////Defino as coordenadas do mundo utilizando as constantes definidas
-	//glOrtho(0.0, WORLD_SIZE_W, 0.0, WORLD_SIZE_H, -1.0, 3.0);
-
-	////Nova proporção da janela depois de ser redimensionada
-	//float windowRatioAspect = ((float)width) / height;
-
-	////Proporção base do mundo
-	//float worldAspectRatio = ((float)WORLD_SIZE_W) / WORLD_SIZE_H;
-	//std::cout << "raj: " << windowRatioAspect << " ram " << worldAspectRatio << std::endl;
-
-	////Se a proporção do mundo for maior, significa que a tela ficou menor que o mundo, e tratamos como necessário
-	//if (windowRatioAspect < worldAspectRatio) {
-
-	//	float hViewport = width / worldAspectRatio;
-	//	float yViewport = (height - hViewport) / 2;
-	//	glViewport(0, yViewport, width, hViewport);
-
-	//}
-	//else if (windowRatioAspect > worldAspectRatio) {
-	//	//Se a proporção da janela for maior, significa que a tela ficou maior que o mundo, e tratamos como necessário		
-	//	float wViewport = ((float)height) * worldAspectRatio;
-	//	float xViewport = (width - wViewport);
-	//	glViewport(0, 0, xViewport + wViewport, height);
-	//}
-	//else {
-	//	//Se não houve alteração, apenas defina o viewport com os novos tamanhos
-	//	glViewport(0, 0, width, height);
-	//}
 
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
@@ -216,7 +276,8 @@ void teclaPressionada(unsigned char key, int x, int y) {
 	case 80: // 'P;
 	case 112: //'p'
 
-
+		modoCamera = (modoCamera == MODO_PAISAGEM) ? MODO_SUPERIOR : MODO_PAISAGEM;
+		
 	default:
 		break;
 
@@ -236,14 +297,16 @@ void teclaEspecialPressionada(int key, int x, int y) {
 }
 
 void posicionaCamera(int x, int y) {
-	xMouse = x;
-	yMouse = y;;
+	
 	glutPostRedisplay();
 }
-
-void rotacionaEsfera() {
-	anguloEsferaY += 0.01f;
+void atualizaEsfera(int time) {
+	
+	anguloEsferaY += 0.1f;
+	dia = fmod(dia, 360);
+	ano = fmod(ano+0.5, 360);
 	glutPostRedisplay();
+	glutTimerFunc(time, atualizaEsfera, time);
 }
 
 int main(int argc, char** argv) {
@@ -264,8 +327,8 @@ int main(int argc, char** argv) {
 	glutReshapeFunc(redimensionada);
 	glutKeyboardFunc(teclaPressionada); //Usado para capturar os eventos de teclas especiais (aquelas que nao geram um valor ASCII)
 	glutSpecialFunc(teclaEspecialPressionada);
-	glutPassiveMotionFunc(posicionaCamera);
-	glutIdleFunc(rotacionaEsfera);
+	glutTimerFunc(16, atualizaEsfera, 16);
+
 	inicializa();
 	glutMainLoop();
 
