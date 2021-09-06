@@ -34,11 +34,11 @@ std::vector<Iluminacao> luzes;
 Sol sun;
 std::vector<Planeta> planetas;
 //Angulo do eixo de giro do Sol e planetas em torno do eixo Y ou um pouco inclinado para mais realismo
-float anguloEsferaY = 0,anguloEsferaP = 0;
+float anguloEsferaY = 0;
 //Array de texturas
 std::vector<int> idTexturas;
 //Variaveis de controle da camera
-enum CAMERAS { MODO_PAISAGEM = 0, MODO_SUPERIOR = 1};
+enum CAMERAS { MODO_PAISAGEM = 0, MODO_SUPERIOR = 1,MODO_MUSEU = 2};
 int modoCamera = MODO_PAISAGEM;
 
 GLuint carregaTextura(const char* arquivo) {
@@ -218,8 +218,6 @@ void desenhaMundo() {
 
 }
 
-
-
 //Função responsável por alterar a visão ao redimensionar a janela
 void redimensionada(GLsizei width, GLsizei height) {
 
@@ -296,7 +294,10 @@ void atualizaEsfera(int time) {
 	
 	anguloEsferaY += 0.1f;
 	dia = fmod(dia, 360);
-	ano = fmod(ano + 0.5, 360);
+	if (modoCamera != MODO_MUSEU) {
+		ano = fmod(ano + 0.5, 360);
+	}
+	
 	
 	glutPostRedisplay();
 	glutTimerFunc(time, atualizaEsfera, time);
