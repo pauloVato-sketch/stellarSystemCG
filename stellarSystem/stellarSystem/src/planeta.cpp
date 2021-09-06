@@ -11,12 +11,14 @@ Planeta::Planeta(GLint x, GLint y, GLint z,GLfloat radius) {
 }
 int Planeta::desenhaPlaneta(int ano,int dia) {
 
+	/*Movimento de translação
+	*/
 	glRotatef(ano, 0, 1, 0);
-	//std::cout << ano << std::endl;
-	// cria uma quádrica
 	glTranslatef(x, y, z);
 	glRotatef(-ano, 0.0, 1.0, 0.0);
+
 	glPushMatrix();
+	//Movimento de rotação
 		glRotatef(dia, 0.25, 1.0, 0.0);
 		GLUquadric* quadObj = gluNewQuadric();
 		// estilo preenchido... poderia ser GLU_LINE, GLU_SILHOUETTE
@@ -32,13 +34,16 @@ int Planeta::desenhaPlaneta(int ano,int dia) {
 		// limpa as variáveis que a GLU usou para criar
 		// a esfera
 	gluDeleteQuadric(quadObj);
-	glPopMatrix();
-	
-	/*glBegin(GL_POINTS);
-		glColor3f(1, 1, 1);
+
+	/*glBegin(GL_LINES);
+	glColor3f(1, 1, 1);
 		glVertex3f(x, y, z);
+		glVertex3f(x + 1, y + 1, z + 1);
 	glEnd();*/
 
+	glPopMatrix();
+	
+	
 	glutPostRedisplay();
 
 	return 1;

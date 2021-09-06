@@ -26,7 +26,8 @@ int larguraJanela=800, alturaJanela=600;
 //Definições de angulo da camera, aspecto e valores de perto/longe para o perspective
 GLfloat angle, fAspect, zNear, zFar;
 //Ferramentas de rotação
-double ano=0, dia=0;
+double ano=0;
+double dia=0;
 //Vector com as luzes sendo 0 para a luz do Sol
 std::vector<Iluminacao> luzes;
 //Objetos do Sol e dos planetas
@@ -39,6 +40,7 @@ std::vector<int> idTexturas;
 //Variaveis de controle da camera
 enum CAMERAS { MODO_PAISAGEM = 0, MODO_SUPERIOR = 1};
 int modoCamera = MODO_PAISAGEM;
+
 GLuint carregaTextura(const char* arquivo) {
 	GLuint idTextura = SOIL_load_OGL_texture(
 		arquivo,
@@ -70,14 +72,14 @@ void criaPlanetas() {
 	/*Criação e instanciação dos planetas
 	*/
 	Planeta mercurio,venus,terra,marte,jupiter,saturno,urano,netuno;
-	mercurio = Planeta(-125, 0,0,10);
-	venus = Planeta(-130, 0, 0,20);
-	terra = Planeta(-135, 0, 0, 35);
-	marte = Planeta(-140, 0, 0, 25);
-	jupiter = Planeta(-145, 0, 0, 50);
-	saturno = Planeta(-150, 0, 0, 45);
-	urano = Planeta(-155, 0, 0, 40);
-	netuno = Planeta(-160, 0, 0, 30);
+	mercurio = Planeta(-125, -95, 0, 10);
+	venus =    Planeta(-130,  80, 0, 20);
+	terra =    Planeta(-135,  70, 0, 35);
+	marte =    Planeta(-140,  85, 0, 25);
+	jupiter =  Planeta(-150,-100, 0, 50);
+	saturno =  Planeta(-160, -90, 0, 45);
+	urano =    Planeta(-165,  90, 0, 40);
+	netuno =   Planeta(-170, 110, 0, 30);
 	//Inserindo no array Planetas
 	planetas.push_back(mercurio);
 	planetas.push_back(venus);
@@ -111,7 +113,6 @@ void inicializa() {
 	glEnable(GL_LIGHT0);
 	// Habilita o depth-buffering
 	glEnable(GL_DEPTH_TEST);
-
 
 	//Cria o sol
 	Iluminacao i;
@@ -160,38 +161,40 @@ void desenhaBG() {
 	//glutSwapBuffers();
 }
 void posicionaObservador(int tipoObservador) { //0 - Observador Astronauta (pode andar livremente rumo ao desconhecido no espaço) | 1 - Observador astrologo (observa o espaço a uma longa distancia por meio de uma luneta)
-	
+
 		switch (tipoObservador) {
 		case MODO_PAISAGEM: {
-			gluLookAt(400, 0, 1200, 0, 0, 0, 1, 1, 0);
+			gluLookAt(-400, 400, 1200, 0, 0, 0, 1, 1, 0);
 			break;
 		}
 		case MODO_SUPERIOR: {
-			gluLookAt(1, 1200, 0, 0, 0, 0, 1, 0, 0);
+			gluLookAt(0, 1200, 0, 0, 0, 0, 1, 0, 0);
 			break;
 		}
 	}
 
 }
+
+
+
+void especificaParametrosVisualizacao() {
+
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+
+	gluPerspective(angle, fAspect, zNear, zFar);
+	//zNear representa o corte frontal e o zFar representa o corte final, em outras palavras, representam, juntos, o espaço em Z que nossa camera consegue ver os objetos.
+
+	posicionaObservador(modoCamera);
+}
 void desenhaMundo() {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	
-	/*switch (modoCamera) {
-		case MODO_PAISAGEM: {
-			posicionaObservador(MODO_PAISAGEM);
+	especificaParametrosVisualizacao();
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
 
-			break;
-		}
-		case MODO_SUPERIOR: {
-			posicionaObservador(MODO_SUPERIOR);
-			break;
-		}
-		default: {
-			 posicionaObservador(MODO_PAISAGEM);
-			 break;
-		}
-	}*/
 
 	glPushMatrix();
 	glEnable(GL_TEXTURE_2D);
@@ -204,7 +207,8 @@ void desenhaMundo() {
 	glEnable(GL_TEXTURE_2D);
 	for (int i = 0; i < planetas.size();i++) {
 		glBindTexture(GL_TEXTURE_2D, idTexturas[i+1]);
-		planetas.at(i).desenhaPlaneta(ano,dia);
+		planetas.at(i).desenhaPlaneta(ano, dia);
+		
 	}
 	
 	glDisable(GL_TEXTURE_2D);
@@ -215,17 +219,6 @@ void desenhaMundo() {
 }
 
 
-
-void especificaParametrosVisualizacao() {
-
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-
-	gluPerspective(angle, fAspect, zNear, zFar); 
-	//zNear representa o corte frontal e o zFar representa o corte final, em outras palavras, representam, juntos, o espaço em Z que nossa camera consegue ver os objetos.
-
-	posicionaObservador(modoCamera);
-}
 
 //Função responsável por alterar a visão ao redimensionar a janela
 void redimensionada(GLsizei width, GLsizei height) {
@@ -275,9 +268,8 @@ void teclaPressionada(unsigned char key, int x, int y) {
 
 	case 80: // 'P;
 	case 112: //'p'
-
 		modoCamera = (modoCamera == MODO_PAISAGEM) ? MODO_SUPERIOR : MODO_PAISAGEM;
-		
+		break;
 	default:
 		break;
 
@@ -304,7 +296,8 @@ void atualizaEsfera(int time) {
 	
 	anguloEsferaY += 0.1f;
 	dia = fmod(dia, 360);
-	ano = fmod(ano+0.5, 360);
+	ano = fmod(ano + 0.5, 360);
+	
 	glutPostRedisplay();
 	glutTimerFunc(time, atualizaEsfera, time);
 }
