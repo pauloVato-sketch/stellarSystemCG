@@ -1,17 +1,23 @@
 #include "Sol.hpp"
 #include <iostream>
 
+/* Construtor vazio explícito
+*/
 Sol::Sol() {
 }
-
+/*
+  Construtor que recebe variaveis de classe
+*/
 Sol::Sol(Iluminacao iluminacao, GLint x, GLint y,GLfloat radius) {
 	this->iluminacao = iluminacao;
 	this->x = x;
 	this->y = y;
 	this->radius = radius;
 }
+/* Função que desenha o Sol*/
 int Sol::desenhaSol(int anguloEsferaY) {
 
+	//Define rotação em torno do eixo Y
 	glRotatef(anguloEsferaY, 0, 1, 0);
 	glRotatef(90, 1, 0, 0);
 	// cria uma quádrica
@@ -32,6 +38,7 @@ int Sol::desenhaSol(int anguloEsferaY) {
 	return 1;
 }
 
+/* Getters e Setters */
 GLfloat Sol::getRadius() {
 	return radius;
 }

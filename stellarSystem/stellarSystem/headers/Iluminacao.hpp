@@ -1,8 +1,10 @@
 #pragma once
 #include <GL/glut.h>
 #include <vector>
-
+/* Definição da classe de Iluminação*/
 class Iluminacao {
+	/* Definição das variaveis de instancia usadas para definir uma luz, luz ambiente, difusa, especular,
+	posicao, material e especularidade do material*/
 private:
 	std::vector<GLfloat> luzAmbiente;
 	std::vector<GLfloat> luzDifusa;
@@ -10,8 +12,9 @@ private:
 	std::vector<GLfloat> posicaoLuz;
 	std::vector<GLfloat> especularidade;
 	GLint especMaterial;
+	
 public:
-
+	/* Getters e Setters*/
 	std::vector<GLfloat> getLuzAmbiente();
 	std::vector<GLfloat> getLuzDifusa();
 	std::vector<GLfloat> getLuzEspecular();

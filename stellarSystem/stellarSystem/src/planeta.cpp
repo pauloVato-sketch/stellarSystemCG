@@ -1,24 +1,30 @@
 #include "Planeta.hpp" 
 #include <iostream>
+/* Construtor vazio explícito
+*/
 Planeta::Planeta() {
 }
-
+/*
+  Construtor que recebe variaveis de classe
+*/
 Planeta::Planeta(GLint x, GLint y, GLint z,GLfloat radius) {
 	this->x = x;
 	this->y = y;
 	this->z = z;
 	this->radius = radius;
 }
+/* Função que desenha os Planetas*/
 int Planeta::desenhaPlaneta(int ano,int dia) {
 
-	/*Movimento de translação
+	/*Movimento de translação baseando-se no ano, fizemos movimento circular, já que era a forma mais simples, depois até
+	quisemos trocar para o movimento eliptico usando Kepler, porém já não havia tempo e decidimos deixar assim
 	*/
 	glRotatef(ano, 0, 1, 0);
 	glTranslatef(x, y, z);
 	glRotatef(-ano, 0.0, 1.0, 0.0);
 
 	glPushMatrix();
-	//Movimento de rotação
+	//Movimento de rotação baseando-se no dia
 		glRotatef(dia, 0.25, 1.0, 0.0);
 		GLUquadric* quadObj = gluNewQuadric();
 		// estilo preenchido... poderia ser GLU_LINE, GLU_SILHOUETTE
@@ -35,7 +41,11 @@ int Planeta::desenhaPlaneta(int ano,int dia) {
 		// a esfera
 	gluDeleteQuadric(quadObj);
 
-	/*glBegin(GL_LINES);
+	/* Aqui seriam desenhadas as linhas de caminho dos planetas, porém tive dúvida em como implementar, apenas pontos estavam
+	aparecendo, daí deixei comentado como uma ideia (há alguns comentários pelo código com ideias que não foram pra frente,
+	mas que nas ferias eu, Paulo, irei terminar)
+	
+	glBegin(GL_LINES);
 	glColor3f(1, 1, 1);
 		glVertex3f(x, y, z);
 		glVertex3f(x + 1, y + 1, z + 1);
@@ -43,13 +53,12 @@ int Planeta::desenhaPlaneta(int ano,int dia) {
 
 	glPopMatrix();
 	
-	
 	glutPostRedisplay();
 
 	return 1;
 }
 
-
+/* Getters e Setters*/
 GLdouble Planeta::getRadius() {
 	return radius;
 }

@@ -3,18 +3,22 @@
 #include "Iluminacao.hpp"
 #include <Iluminacao.hpp>
 
+/* Definição da classe Sol*/
 class Sol {
 private:
+	// Variaveis : raio, posição x , posição y , id da textura utilizada e objeto de iluminação
 	GLdouble radius;
 	GLint x;
 	GLint y;
 	GLint idTextura;
 	Iluminacao iluminacao;
 public:
+	//Contrutores sem e com variaveis, respectivamente
 	Sol();
 	Sol(Iluminacao iluminacao, GLint x, GLint y,GLfloat radius);
-
+	//Função que desenha o Sol
 	int desenhaSol(int anguloEsferaY);
+	//Getters e Setters
 	GLfloat getRadius();
 	GLint getX();
 	GLint getY();

@@ -1,6 +1,7 @@
 #include "Iluminacao.hpp"
 #include <vector>
 
+/* Getters e Setters*/
 std::vector<GLfloat> Iluminacao::getLuzAmbiente() {
 	return this->luzAmbiente;
 }
